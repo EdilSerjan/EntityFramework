@@ -1,0 +1,48 @@
+﻿<Properties StartupConfiguration="{FF268CE8-BD3A-43F0-BFD9-9682113A585E}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TestProject/Views/shared/_Search.cshtml">
+    <Files>
+      <File FileName="TestProject/Startup.cs" Line="32" Column="42" />
+      <File FileName="TestProject/Views/shared/_Layout.cshtml" />
+      <File FileName="TestProject/Controllers/CalculatorController.cs" Line="15" Column="10" />
+      <File FileName="TestProject/Models/Movies/Movie.cs" Line="11" Column="15" />
+      <File FileName="TestProject/Controllers/MoviesController.cs" Line="54" Column="10" />
+      <File FileName="TestProject/Views/Index.cshtml" Line="5" Column="2" />
+      <File FileName="TestProject/Models/Movies/ADD.cshtml" Line="17" Column="32" />
+      <File FileName="TestProject/Views/_ViewImports.cshtml" Line="3" Column="1" />
+      <File FileName="TestProject/Views/shared/_Search.cshtml" Line="18" Column="7" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="TestProject" expanded="True">
+            <Node name="TestProject" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="Movies" expanded="True" />
+              </Node>
+              <Node name="Views" expanded="True">
+                <Node name="Calculator" expanded="True" />
+                <Node name="Hello" expanded="True" />
+                <Node name="Messages" expanded="True" />
+                <Node name="Movies" expanded="True" />
+                <Node name="shared" expanded="True">
+                  <Node name="_Search.cshtml" selected="True" />
+                </Node>
+              </Node>
+              <Node name="wwwroot" expanded="True">
+                <Node name="css" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.TestProject PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
