@@ -1,2 +1,7 @@
 # EntityFramework
-.NET task5
+.NET
+
+Lab2 ✅
+Lab3 ✅
+Lab4 ✅
+Lab5 ✅
