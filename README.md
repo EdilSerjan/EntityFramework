@@ -1,42 +1,39 @@
-# EntityFramework
-.NET
+# Milestone Project
 
-Lab2 ✅
-Lab3 ✅
-Lab4 ✅
-Lab5 ✅
+### Topic: Fitness club. 
+
+Nowadays, **Fitness club** is becoming more and more popular. So I decided to develop the application about a fitness club. I have 7 entities, in which there are three types of relaitonships as well.
 
 
 
-Milestone Project
 
-Topic: Fitness club. 
 
-7 Entities:
+### 7 Entities:
 
-  (1) coach(id, name, tel)
+  - coach(id, name, tel)
   
-  (2) course(id, name, coachId, roomId)
+  - course(id, name, coachId, roomId)
   
-  (3) room(room_id, capacity)
+  - room(room_id, capacity)
   
-  (4) equipment(id, name, price, roomId(FK))
+  - equipment(id, name, price, roomId(FK))
   
-  (5) member(id, name, tel)
+  - member(id, name, tel)
   
-  (6) schedule(id, courseId(FK), memberId(FK))
+  - schedule(id, courseId(FK), memberId(FK))
   
-  (7) membershipcard(id, createdAt, memberId(FK)) 
+  - membershipcard(id, createdAt, memberId(FK)) 
  
- relationships:
  
-   one to one:
-    coach - course
-    member - membershipcard
+### Relationships:
+ 
+  - one to one:
+    - coach - course
+    - member - membershipcard
 
-   one to many:
-    room - course
-    room - equipment
+  - one to many:
+    - room - course
+    - room - equipment
 
-   many to many:
-    member - schedule
+  - many to many:
+    - member - schedule
