@@ -36,4 +36,4 @@ Nowadays, **Fitness club** is becoming more and more popular. So I decided to de
     - room - equipment
 
   - many to many:
-    - member - schedule
+    - member - course
