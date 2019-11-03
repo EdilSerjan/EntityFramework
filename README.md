@@ -23,7 +23,7 @@ Nowadays, **Fitness club** is becoming more and more popular. So I decided to de
   
   - member(id, name, tel)
   
-  - schedule(id, courseId(FK), memberId(FK))
+  - couresmember(id, courseId(FK), memberId(FK))
   
   - membershipcard(id, createdAt, memberId(FK)) 
  
