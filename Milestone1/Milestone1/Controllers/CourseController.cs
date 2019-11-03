@@ -49,7 +49,7 @@ namespace Milestone1.Controllers
         // GET: Course/Create
         public IActionResult Create()
         {
-            ViewData["coachId"] = new SelectList(_context.Coaches, "id", "id");
+            ViewData["coachId"] = new SelectList(_context.Coaches, "id", "name");
             ViewData["roomId"] = new SelectList(_context.Rooms, "id", "id");
             return View();
         }
@@ -85,8 +85,8 @@ namespace Milestone1.Controllers
             {
                 return NotFound();
             }
-            ViewData["coachId"] = new SelectList(_context.Coaches, "id", "id", course.coachId);
-            ViewData["roomId"] = new SelectList(_context.Rooms, "id", "id", course.roomId);
+            ViewData["coachId"] = new SelectList(_context.Coaches, "id", "name");
+            ViewData["roomId"] = new SelectList(_context.Rooms, "id", "id");
             return View(course);
         }
 

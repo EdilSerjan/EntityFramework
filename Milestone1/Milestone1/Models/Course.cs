@@ -25,7 +25,7 @@ namespace Milestone1.Models
         [ForeignKey("roomId")]
         public Room room { get; set; }
 
-        public IList<Schedule> schedules { get; set; }
+        public IList<CourseMember> CourseMembers { get; set; }
 
 
     }

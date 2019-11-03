@@ -117,24 +117,24 @@ namespace Milestone1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schedules",
+                name: "CourseMembers",
                 columns: table => new
                 {
                     courseId = table.Column<long>(nullable: false),
                     memberId = table.Column<long>(nullable: false),
-                    day = table.Column<int>(nullable: false)
+                    day = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedules", x => new { x.courseId, x.memberId });
+                    table.PrimaryKey("PK_CourseMembers", x => new { x.courseId, x.memberId });
                     table.ForeignKey(
-                        name: "FK_Schedules_Courses_courseId",
+                        name: "FK_CourseMembers_Courses_courseId",
                         column: x => x.courseId,
                         principalTable: "Courses",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Schedules_Members_memberId",
+                        name: "FK_CourseMembers_Members_memberId",
                         column: x => x.memberId,
                         principalTable: "Members",
                         principalColumn: "id",
@@ -194,22 +194,27 @@ namespace Milestone1.Migrations
             migrationBuilder.InsertData(
                 table: "MembershipCards",
                 columns: new[] { "id", "createdAt", "memberId" },
-                values: new object[] { 1L, new DateTime(2019, 11, 1, 22, 23, 38, 948, DateTimeKind.Local).AddTicks(5020), 1L });
+                values: new object[] { 1L, new DateTime(2019, 11, 3, 15, 47, 29, 484, DateTimeKind.Local).AddTicks(4580), 1L });
 
             migrationBuilder.InsertData(
                 table: "MembershipCards",
                 columns: new[] { "id", "createdAt", "memberId" },
-                values: new object[] { 2L, new DateTime(2019, 11, 1, 22, 23, 38, 960, DateTimeKind.Local).AddTicks(4380), 2L });
+                values: new object[] { 2L, new DateTime(2019, 11, 3, 15, 47, 29, 495, DateTimeKind.Local).AddTicks(5060), 2L });
 
             migrationBuilder.InsertData(
-                table: "Schedules",
+                table: "CourseMembers",
                 columns: new[] { "courseId", "memberId", "day" },
-                values: new object[] { 2L, 1L, 1 });
+                values: new object[] { 2L, 1L, "Monday" });
 
             migrationBuilder.InsertData(
-                table: "Schedules",
+                table: "CourseMembers",
                 columns: new[] { "courseId", "memberId", "day" },
-                values: new object[] { 1L, 2L, 4 });
+                values: new object[] { 1L, 2L, "Thursday" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseMembers_memberId",
+                table: "CourseMembers",
+                column: "memberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_coachId",
@@ -232,23 +237,18 @@ namespace Milestone1.Migrations
                 table: "MembershipCards",
                 column: "memberId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Schedules_memberId",
-                table: "Schedules",
-                column: "memberId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "CourseMembers");
+
+            migrationBuilder.DropTable(
                 name: "Equipments");
 
             migrationBuilder.DropTable(
                 name: "MembershipCards");
-
-            migrationBuilder.DropTable(
-                name: "Schedules");
 
             migrationBuilder.DropTable(
                 name: "Courses");

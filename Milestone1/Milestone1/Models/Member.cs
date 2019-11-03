@@ -17,7 +17,7 @@ namespace Milestone1.Models
 
         public MembershipCard membershipCard { get; set; }
 
-        public IList<Schedule> schedules { get; set; }
+        public IList<CourseMember> CourseMembers { get; set; }
     }
 }
 

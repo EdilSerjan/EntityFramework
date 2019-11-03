@@ -88,6 +88,38 @@ namespace Milestone1.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Milestone1.Models.CourseMember", b =>
+                {
+                    b.Property<long>("courseId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("memberId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("day")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("courseId", "memberId");
+
+                    b.HasIndex("memberId");
+
+                    b.ToTable("CourseMembers");
+
+                    b.HasData(
+                        new
+                        {
+                            courseId = 2L,
+                            memberId = 1L,
+                            day = "Monday"
+                        },
+                        new
+                        {
+                            courseId = 1L,
+                            memberId = 2L,
+                            day = "Thursday"
+                        });
+                });
+
             modelBuilder.Entity("Milestone1.Models.Equipment", b =>
                 {
                     b.Property<long>("id")
@@ -181,13 +213,13 @@ namespace Milestone1.Migrations
                         new
                         {
                             id = 1L,
-                            createdAt = new DateTime(2019, 11, 1, 22, 23, 38, 948, DateTimeKind.Local).AddTicks(5020),
+                            createdAt = new DateTime(2019, 11, 3, 15, 47, 29, 484, DateTimeKind.Local).AddTicks(4580),
                             memberId = 1L
                         },
                         new
                         {
                             id = 2L,
-                            createdAt = new DateTime(2019, 11, 1, 22, 23, 38, 960, DateTimeKind.Local).AddTicks(4380),
+                            createdAt = new DateTime(2019, 11, 3, 15, 47, 29, 495, DateTimeKind.Local).AddTicks(5060),
                             memberId = 2L
                         });
                 });
@@ -218,38 +250,6 @@ namespace Milestone1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Milestone1.Models.Schedule", b =>
-                {
-                    b.Property<long>("courseId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("memberId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("day")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("courseId", "memberId");
-
-                    b.HasIndex("memberId");
-
-                    b.ToTable("Schedules");
-
-                    b.HasData(
-                        new
-                        {
-                            courseId = 2L,
-                            memberId = 1L,
-                            day = 1
-                        },
-                        new
-                        {
-                            courseId = 1L,
-                            memberId = 2L,
-                            day = 4
-                        });
-                });
-
             modelBuilder.Entity("Milestone1.Models.Course", b =>
                 {
                     b.HasOne("Milestone1.Models.Coach", "coach")
@@ -261,6 +261,21 @@ namespace Milestone1.Migrations
                     b.HasOne("Milestone1.Models.Room", "room")
                         .WithMany("courses")
                         .HasForeignKey("roomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Milestone1.Models.CourseMember", b =>
+                {
+                    b.HasOne("Milestone1.Models.Course", "course")
+                        .WithMany("CourseMembers")
+                        .HasForeignKey("courseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Milestone1.Models.Member", "member")
+                        .WithMany("CourseMembers")
+                        .HasForeignKey("memberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -279,21 +294,6 @@ namespace Milestone1.Migrations
                     b.HasOne("Milestone1.Models.Member", "member")
                         .WithOne("membershipCard")
                         .HasForeignKey("Milestone1.Models.MembershipCard", "memberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Milestone1.Models.Schedule", b =>
-                {
-                    b.HasOne("Milestone1.Models.Course", "course")
-                        .WithMany("schedules")
-                        .HasForeignKey("courseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Milestone1.Models.Member", "member")
-                        .WithMany("schedules")
-                        .HasForeignKey("memberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

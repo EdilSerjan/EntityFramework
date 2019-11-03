@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 namespace Milestone1.Models
 {
-    public class Schedule
+    public class CourseMember
     {
-        public Schedule()
+        public CourseMember()
         {
         }
         //[Key]
@@ -21,7 +21,7 @@ namespace Milestone1.Models
         [ForeignKey("memberId")]
         public Member member { get; set; }
 
-        public DayOfWeek day { get; set; }
+        public string day { get; set; }
 
     }
 }

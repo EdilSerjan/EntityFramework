@@ -16,7 +16,7 @@ namespace Milestone1.Data
         public DbSet<MembershipCard> MembershipCards { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Room> Rooms { get; set; }
-        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<CourseMember> CourseMembers { get; set; }
 
 
 
@@ -42,15 +42,15 @@ namespace Milestone1.Data
                 .HasOne(e => e.room)
                 .WithMany(r => r.equipments);
 
-            modelBuilder.Entity<Schedule>().HasKey(sc => new { sc.courseId, sc.memberId });
+            modelBuilder.Entity<CourseMember>().HasKey(sc => new { sc.courseId, sc.memberId });
 
-            modelBuilder.Entity<Schedule>()
+            modelBuilder.Entity<CourseMember>()
                 .HasOne(sc => sc.course)
-                .WithMany(p => p.schedules);
+                .WithMany(p => p.CourseMembers);
 
-            modelBuilder.Entity<Schedule>()
+            modelBuilder.Entity<CourseMember>()
                 .HasOne(sc => sc.member)
-                .WithMany(p => p.schedules);
+                .WithMany(p => p.CourseMembers);
 
 
             modelBuilder.Entity<Coach>().HasData(
@@ -140,18 +140,18 @@ namespace Milestone1.Data
                     roomId = 1
 
                 });
-            modelBuilder.Entity<Schedule>().HasData(
-                new Schedule
+            modelBuilder.Entity<CourseMember>().HasData(
+                new CourseMember
                 {
                     courseId = 2,
                     memberId = 1,
-                    day = DayOfWeek.Monday
+                    day = "Monday"
                 },
-                new Schedule
+                new CourseMember
                 {
                     courseId = 1,
                     memberId = 2,
-                    day = DayOfWeek.Thursday
+                    day = "Thursday"
                 });
         }
     }

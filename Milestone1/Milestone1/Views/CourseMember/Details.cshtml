@@ -1,4 +1,4 @@
-@model Milestone1.Models.Schedule
+@model Milestone1.Models.CourseMember
 
 <!DOCTYPE html>
 
@@ -10,31 +10,30 @@
 <body>
 
 <div>
-    <h4>Schedule</h4>
+    <h4>CourseMember</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.course)
+            @Html.DisplayNameFor(model => model.courseId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.course.id)
-        </dd>
+            @Html.DisplayFor(model => model.courseId)
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.member)
+            @Html.DisplayNameFor(model => model.memberId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.member.id)
+            @Html.DisplayFor(model => model.memberId)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.day)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.day)
+            @Html.DisplayFor(model => model.day) 
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new { courseId = Model.courseId, memberId = Model.memberId }) |
     <a asp-action="Index">Back to List</a>
 </div>
 </body>

@@ -1,4 +1,5 @@
-@model IEnumerable<Milestone1.Models.Schedule>
+@model IEnumerable<Milestone1.Models.CourseMember>
+
 
 <!DOCTYPE html>
 
@@ -30,18 +31,18 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.course.id)
+                @Html.DisplayFor(modelItem => item.course.name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.member.id)
+                @Html.DisplayFor(modelItem => item.member.name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.day)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new { courseId = item.courseId, memberId = item.memberId }) |
+                @Html.ActionLink("Details", "Details", new { courseId = item.courseId, memberId = item.memberId })  |
+                @Html.ActionLink("Delete", "Delete", new { courseId = item.courseId, memberId = item.memberId }) 
             </td>
         </tr>
 }

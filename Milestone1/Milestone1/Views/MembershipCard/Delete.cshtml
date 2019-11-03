@@ -22,10 +22,16 @@
             @Html.DisplayFor(model => model.createdAt)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.memberId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.memberId)
+        </dd class>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.member)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.member.id)
+            @Html.DisplayFor(model => model.member.name)
         </dd class>
     </dl>
     
