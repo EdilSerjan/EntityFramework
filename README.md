@@ -1,6 +1,9 @@
 # Milestone Project
 
+### Serzhan Yedil CSSE-1601K 25000
+
 ### Topic: Fitness club. 
+
 
 Nowadays, **Fitness club** is becoming more and more popular. So I decided to develop the application about a fitness club. I have 7 entities, in which there are three types of relaitonships as well.
 
