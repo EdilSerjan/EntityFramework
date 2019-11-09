@@ -40,3 +40,22 @@ Nowadays, **Fitness club** is becoming more and more popular. So I decided to de
 
   - many to many:
     - member - course
+
+### Validations
+
+#### the remote validation
+  
+VerifyEmail of the property '**Email**' of model '**Member**' and the function is in the Controller '**MembersController**'
+      
+#### the custom attriubute validation
+  
+The custom attribute validation is '**NotContainsDigits**'
+It validates the property '**Name**' of model '**Member**', making sure that the name contains no digits,
+the implementation is in the same model.
+  
+#### the model which implements IValidatableObject
+  
+The model '**Equipment**' inherits **IValidatableObject**
+And we'r using it to make sure when the equipment's name is 'bench', its price should not exceed 20000.
+  
+       

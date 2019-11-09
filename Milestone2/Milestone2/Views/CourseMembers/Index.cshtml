@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Milestone2.Models.CourseMember>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Member)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Day)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Day)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { CourseId = item.CourseId, MemberId = item.MemberId }) |
+                @Html.ActionLink("Details", "Details", new { CourseId = item.CourseId, MemberId = item.MemberId }) |
+                @Html.ActionLink("Delete", "Delete", new { CourseId = item.CourseId, MemberId = item.MemberId  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

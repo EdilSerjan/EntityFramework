@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{7806CA72-C205-49B3-861D-B879A41116F6}|Default">
+  <MonoDevelop.Ide.ItemProperties.Milestone2 PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Milestone2/Models/Equipment.cs">
+    <Files>
+      <File FileName="Milestone2/Models/Member.cs" Line="18" Column="28" />
+      <File FileName="Milestone2/Controllers/MembersController.cs" Line="24" Column="17" />
+      <File FileName="Milestone2/Controllers/EquipmentsController.cs" Line="1" Column="1" />
+      <File FileName="Milestone2/Models/Equipment.cs" Line="9" Column="48" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Milestone2" expanded="True">
+            <Node name="Milestone2" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="Equipment.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
