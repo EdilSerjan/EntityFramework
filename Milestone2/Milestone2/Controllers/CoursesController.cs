@@ -7,23 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Milestone2.Data;
 using Milestone2.Models;
+using Milestone2.Services.Courses;
 
 namespace Milestone2.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly FitnessClubContext _context;
+        private readonly CourseService _courseService;
 
-        public CoursesController(FitnessClubContext context)
+        public CoursesController(CourseService courseService)
         {
-            _context = context;
+            _courseService = courseService;
         }
 
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            var fitnessClubContext = _context.Courses.Include(c => c.Coach).Include(c => c.Room);
-            return View(await fitnessClubContext.ToListAsync());
+            return View(await _courseService.GetAllCourses());
         }
 
         // GET: Courses/Details/5
@@ -34,10 +34,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
-                .Include(c => c.Coach)
-                .Include(c => c.Room)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var course = await _courseService.GetById((long)id);
             if (course == null)
             {
                 return NotFound();
@@ -47,10 +44,10 @@ namespace Milestone2.Controllers
         }
 
         // GET: Courses/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            ViewData["CoachId"] = new SelectList(_context.Coaches, "Id", "Name");
-            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id");
+            ViewData["CoachId"] = new SelectList(await _courseService.GetAllCoaches(), "Id", "Name");
+            ViewData["RoomId"] = new SelectList(await _courseService.GetAllRooms(), "Id", "Id");
             return View();
         }
 
@@ -63,12 +60,11 @@ namespace Milestone2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(course);
-                await _context.SaveChangesAsync();
+                await _courseService.AddAndSave(course);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CoachId"] = new SelectList(_context.Coaches, "Id", "Email", course.CoachId);
-            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id", course.RoomId);
+            ViewData["CoachId"] = new SelectList(await _courseService.GetAllCoaches(), "Id", "Name", course.CoachId);
+            ViewData["RoomId"] = new SelectList(await _courseService.GetAllRooms(), "Id", "Id", course.RoomId);
             return View(course);
         }
 
@@ -80,13 +76,13 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses.FindAsync(id);
+            var course = await _courseService.GetById((long)id);
             if (course == null)
             {
                 return NotFound();
             }
-            ViewData["CoachId"] = new SelectList(_context.Coaches, "Id", "Name", course.CoachId);
-            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id", course.RoomId);
+            ViewData["CoachId"] = new SelectList(await _courseService.GetAllCoaches(), "Id", "Name", course.CoachId);
+            ViewData["RoomId"] = new SelectList(await _courseService.GetAllRooms(), "Id", "Id", course.RoomId);
             return View(course);
         }
 
@@ -106,12 +102,11 @@ namespace Milestone2.Controllers
             {
                 try
                 {
-                    _context.Update(course);
-                    await _context.SaveChangesAsync();
+                    await _courseService.UpdateAndSave(course);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CourseExists(course.Id))
+                    if (!_courseService.CourseExists(course.Id))
                     {
                         return NotFound();
                     }
@@ -122,8 +117,8 @@ namespace Milestone2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CoachId"] = new SelectList(_context.Coaches, "Id", "Email", course.CoachId);
-            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id", course.RoomId);
+            ViewData["CoachId"] = new SelectList(await _courseService.GetAllCoaches(), "Id", "Name", course.CoachId);
+            ViewData["RoomId"] = new SelectList(await _courseService.GetAllRooms(), "Id", "Id", course.RoomId);
             return View(course);
         }
 
@@ -135,10 +130,8 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
-                .Include(c => c.Coach)
-                .Include(c => c.Room)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var course = await _courseService.GetById((long)id);
+
             if (course == null)
             {
                 return NotFound();
@@ -152,15 +145,8 @@ namespace Milestone2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var course = await _context.Courses.FindAsync(id);
-            _context.Courses.Remove(course);
-            await _context.SaveChangesAsync();
+            await _courseService.DeleteAndSave(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CourseExists(long id)
-        {
-            return _context.Courses.Any(e => e.Id == id);
         }
     }
 }

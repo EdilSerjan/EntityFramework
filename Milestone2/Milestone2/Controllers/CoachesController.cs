@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Milestone2.Data;
 using Milestone2.Models;
+using Milestone2.Services.Coaches;
 
 namespace Milestone2.Controllers
 {
     public class CoachesController : Controller
     {
-        private readonly FitnessClubContext _context;
+        private readonly CoachService _coachService;
 
-        public CoachesController(FitnessClubContext context)
+        public CoachesController(CoachService coachService)
         {
-            _context = context;
+            _coachService = coachService;
         }
 
         // GET: Coaches
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Coaches.ToListAsync());
+            return View(await _coachService.GetAll());
         }
 
         // GET: Coaches/Details/5
@@ -33,8 +29,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var coach = await _context.Coaches
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var coach = await _coachService.GetById((long)id);
             if (coach == null)
             {
                 return NotFound();
@@ -58,8 +53,7 @@ namespace Milestone2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(coach);
-                await _context.SaveChangesAsync();
+                await _coachService.AddAndSave(coach);
                 return RedirectToAction(nameof(Index));
             }
             return View(coach);
@@ -73,7 +67,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var coach = await _context.Coaches.FindAsync(id);
+            var coach = await _coachService.GetById((long)id);
             if (coach == null)
             {
                 return NotFound();
@@ -97,12 +91,11 @@ namespace Milestone2.Controllers
             {
                 try
                 {
-                    _context.Update(coach);
-                    await _context.SaveChangesAsync();
+                    await _coachService.UpdateAndSave(coach);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CoachExists(coach.Id))
+                    if (!_coachService.CoachExists(coach.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +117,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var coach = await _context.Coaches
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var coach = await _coachService.GetById((long)id);
             if (coach == null)
             {
                 return NotFound();
@@ -139,15 +131,9 @@ namespace Milestone2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var coach = await _context.Coaches.FindAsync(id);
-            _context.Coaches.Remove(coach);
-            await _context.SaveChangesAsync();
+            await _coachService.DeleteAndSave(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CoachExists(long id)
-        {
-            return _context.Coaches.Any(e => e.Id == id);
-        }
     }
 }

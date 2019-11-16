@@ -7,23 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Milestone2.Data;
 using Milestone2.Models;
+using Milestone2.Services.Equipments;
 
 namespace Milestone2.Controllers
 {
     public class EquipmentsController : Controller
     {
-        private readonly FitnessClubContext _context;
+        private readonly EquipmentService _equipmentService;
 
-        public EquipmentsController(FitnessClubContext context)
+        public EquipmentsController(EquipmentService equipmentService)
         {
-            _context = context;
+            _equipmentService = equipmentService;
         }
 
         // GET: Equipments
         public async Task<IActionResult> Index()
         {
-            var fitnessClubContext = _context.Equipments.Include(e => e.Room);
-            return View(await fitnessClubContext.ToListAsync());
+            return View(await _equipmentService.GetAllEquipments());
         }
 
         // GET: Equipments/Details/5
@@ -34,9 +34,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var equipment = await _context.Equipments
-                .Include(e => e.Room)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var equipment = await _equipmentService.GetById((long)id);
             if (equipment == null)
             {
                 return NotFound();
@@ -46,9 +44,9 @@ namespace Milestone2.Controllers
         }
 
         // GET: Equipments/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id");
+            ViewData["RoomId"] = new SelectList(await _equipmentService.GetAllRooms(), "Id", "Id");
             return View();
         }
 
@@ -61,11 +59,10 @@ namespace Milestone2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(equipment);
-                await _context.SaveChangesAsync();
+                await _equipmentService.AddAndSave(equipment);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id", equipment.RoomId);
+            ViewData["RoomId"] = new SelectList(await _equipmentService.GetAllRooms(), "Id", "Id", equipment.RoomId);
             return View(equipment);
         }
 
@@ -77,12 +74,12 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var equipment = await _context.Equipments.FindAsync(id);
+            var equipment = await _equipmentService.GetById((long)id);
             if (equipment == null)
             {
                 return NotFound();
             }
-            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id", equipment.RoomId);
+            ViewData["RoomId"] = new SelectList(await _equipmentService.GetAllRooms(), "Id", "Id", equipment.RoomId);
             return View(equipment);
         }
 
@@ -102,12 +99,11 @@ namespace Milestone2.Controllers
             {
                 try
                 {
-                    _context.Update(equipment);
-                    await _context.SaveChangesAsync();
+                    await _equipmentService.UpdateAndSave(equipment);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EquipmentExists(equipment.Id))
+                    if (!_equipmentService.EquipmentExists(equipment.Id))
                     {
                         return NotFound();
                     }
@@ -118,7 +114,7 @@ namespace Milestone2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoomId"] = new SelectList(_context.Rooms, "Id", "Id", equipment.RoomId);
+            ViewData["RoomId"] = new SelectList(await _equipmentService.GetAllRooms(), "Id", "Id", equipment.RoomId);
             return View(equipment);
         }
 
@@ -130,9 +126,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var equipment = await _context.Equipments
-                .Include(e => e.Room)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var equipment = await _equipmentService.GetById((long)id);
             if (equipment == null)
             {
                 return NotFound();
@@ -146,15 +140,8 @@ namespace Milestone2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var equipment = await _context.Equipments.FindAsync(id);
-            _context.Equipments.Remove(equipment);
-            await _context.SaveChangesAsync();
+            await _equipmentService.DeleteAndSave(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool EquipmentExists(long id)
-        {
-            return _context.Equipments.Any(e => e.Id == id);
         }
     }
 }

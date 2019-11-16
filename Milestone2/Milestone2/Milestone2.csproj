@@ -26,4 +26,14 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\Members\" />
+    <Folder Include="Services\Coaches\" />
+    <Folder Include="Services\Rooms\" />
+    <Folder Include="Services\Equipments\" />
+    <Folder Include="Services\MembershipCards\" />
+    <Folder Include="Services\Courses\" />
+    <Folder Include="Services\CourseMembers\" />
+  </ItemGroup>
 </Project>

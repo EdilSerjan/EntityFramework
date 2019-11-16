@@ -7,22 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Milestone2.Data;
 using Milestone2.Models;
+using Milestone2.Services.Rooms;
 
 namespace Milestone2.Controllers
 {
     public class RoomsController : Controller
     {
-        private readonly FitnessClubContext _context;
+        private readonly RoomService _roomService;
 
-        public RoomsController(FitnessClubContext context)
+        public RoomsController(RoomService roomService)
         {
-            _context = context;
+            _roomService = roomService;
         }
 
         // GET: Rooms
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Rooms.ToListAsync());
+            return View(await _roomService.GetAll());
         }
 
         // GET: Rooms/Details/5
@@ -33,8 +34,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Rooms
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var room = await _roomService.GetById((long)id);
             if (room == null)
             {
                 return NotFound();
@@ -58,8 +58,7 @@ namespace Milestone2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(room);
-                await _context.SaveChangesAsync();
+                await _roomService.AddAndSave(room);
                 return RedirectToAction(nameof(Index));
             }
             return View(room);
@@ -73,7 +72,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Rooms.FindAsync(id);
+            var room = await _roomService.GetById((long)id);
             if (room == null)
             {
                 return NotFound();
@@ -97,12 +96,11 @@ namespace Milestone2.Controllers
             {
                 try
                 {
-                    _context.Update(room);
-                    await _context.SaveChangesAsync();
+                    await _roomService.UpdateAndSave(room);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoomExists(room.Id))
+                    if (!_roomService.RoomExists(room.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +122,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Rooms
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var room = await _roomService.GetById((long)id);
             if (room == null)
             {
                 return NotFound();
@@ -139,15 +136,9 @@ namespace Milestone2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var room = await _context.Rooms.FindAsync(id);
-            _context.Rooms.Remove(room);
-            await _context.SaveChangesAsync();
+            await _roomService.DeleteAndSave(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RoomExists(long id)
-        {
-            return _context.Rooms.Any(e => e.Id == id);
-        }
     }
 }

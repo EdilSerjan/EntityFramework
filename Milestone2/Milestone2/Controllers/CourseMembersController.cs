@@ -7,24 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Milestone2.Data;
 using Milestone2.Models;
+using Milestone2.Services.CourseMembers;
 
 namespace Milestone2.Controllers
 {
     public class CourseMembersController : Controller
     {
-        private readonly FitnessClubContext _context;
+        private readonly CourseMemberService _courseMemberService;
 
         string[] Days = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-        public CourseMembersController(FitnessClubContext context)
+        public CourseMembersController(CourseMemberService courseMemberService)
         {
-            _context = context;
+            _courseMemberService = courseMemberService;
         }
 
         // GET: CourseMembers
         public async Task<IActionResult> Index()
         {
-            var fitnessClubContext = _context.CourseMembers.Include(c => c.Course).Include(c => c.Member);
-            return View(await fitnessClubContext.ToListAsync());
+            return View(await _courseMemberService.GetAllCourseMembers());
         }
 
         // GET: CourseMembers/Details/5
@@ -35,10 +35,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var courseMember = await _context.CourseMembers
-                .Include(c => c.Course)
-                .Include(c => c.Member)
-                .FirstOrDefaultAsync(m => m.CourseId == CourseId && m.MemberId == MemberId);
+            var courseMember = await _courseMemberService.GetById((long)CourseId, (long)MemberId);
             if (courseMember == null)
             {
                 return NotFound();
@@ -48,10 +45,10 @@ namespace Milestone2.Controllers
         }
 
         // GET: CourseMembers/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name");
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Name");
+            ViewData["CourseId"] = new SelectList(await _courseMemberService.GetAllCourses(), "Id", "Name");
+            ViewData["MemberId"] = new SelectList(await _courseMemberService.GetAllMembers(), "Id", "Name");
             ViewData["Days"] = new SelectList(Days);
             return View();
         }
@@ -65,12 +62,11 @@ namespace Milestone2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(courseMember);
-                await _context.SaveChangesAsync();
+                await _courseMemberService.AddAndSave(courseMember);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", courseMember.CourseId);
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Email", courseMember.MemberId);
+            ViewData["CourseId"] = new SelectList(await _courseMemberService.GetAllCourses(), "Id", "Name", courseMember.CourseId);
+            ViewData["MemberId"] = new SelectList(await _courseMemberService.GetAllMembers(), "Id", "Email", courseMember.MemberId);
             return View(courseMember);
         }
 
@@ -82,13 +78,13 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var courseMember = await _context.CourseMembers.FindAsync(CourseId, MemberId);
+            var courseMember = await _courseMemberService.GetById((long)CourseId, (long)MemberId);
             if (courseMember == null)
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", courseMember.CourseId);
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Name", courseMember.MemberId);
+            ViewData["CourseId"] = new SelectList(await _courseMemberService.GetAllCourses(), "Id", "Name", courseMember.CourseId);
+            ViewData["MemberId"] = new SelectList(await _courseMemberService.GetAllMembers(), "Id", "Name", courseMember.MemberId);
             ViewData["Days"] = new SelectList(Days);
             return View(courseMember);
         }
@@ -109,12 +105,11 @@ namespace Milestone2.Controllers
             {
                 try
                 {
-                    _context.Update(courseMember);
-                    await _context.SaveChangesAsync();
+                    await _courseMemberService.UpdateAndSave(courseMember);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CourseMemberExists(courseMember.CourseId, courseMember.MemberId))
+                    if (!_courseMemberService.CourseMemberExists(courseMember.CourseId, courseMember.MemberId))
                     {
                         return NotFound();
                     }
@@ -125,8 +120,8 @@ namespace Milestone2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name", courseMember.CourseId);
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Email", courseMember.MemberId);
+            ViewData["CourseId"] = new SelectList(await _courseMemberService.GetAllCourses(), "Id", "Name", courseMember.CourseId);
+            ViewData["MemberId"] = new SelectList(await _courseMemberService.GetAllMembers(), "Id", "Email", courseMember.MemberId);
             ViewData["Days"] = new SelectList(Days);
             return View(courseMember);
         }
@@ -139,10 +134,8 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var courseMember = await _context.CourseMembers
-                .Include(c => c.Course)
-                .Include(c => c.Member)
-                .FirstOrDefaultAsync(m => m.CourseId == CourseId && m.MemberId == MemberId);
+            var courseMember = await _courseMemberService.GetById((long)CourseId, (long)MemberId);
+
             if (courseMember == null)
             {
                 return NotFound();
@@ -154,17 +147,11 @@ namespace Milestone2.Controllers
         // POST: CourseMembers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long? CourseId, long? MemberId)
+        public async Task<IActionResult> DeleteConfirmed(long CourseId, long MemberId)
         {
-            var courseMember = await _context.CourseMembers.FindAsync(CourseId, MemberId);
-            _context.CourseMembers.Remove(courseMember);
-            await _context.SaveChangesAsync();
+            await _courseMemberService.DeleteAndSave(CourseId, MemberId);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CourseMemberExists(long CourseId, long MemberId)
-        {
-            return _context.CourseMembers.Any(e => e.CourseId == CourseId && e.MemberId == MemberId);
-        }
     }
 }

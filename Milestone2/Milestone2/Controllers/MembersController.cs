@@ -1,39 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Milestone2.Data;
 using Milestone2.Models;
+using Milestone2.Services.Members;
 
 namespace Milestone2.Controllers
 {
     public class MembersController : Controller
     {
-        private readonly FitnessClubContext _context;
+        private readonly MemberService _memberService;
+
+        public MembersController(MemberService memberService)
+        {
+            _memberService = memberService;
+        }
 
         [AcceptVerbs("Get", "Post")]
         public IActionResult VerifyEmail(string email)
         {
-            if (_context.Members.Any(m => m.Email.ToLower() == email.ToLower()))
-            {
-                return Json($"Email {email} is already in use.");
-            }
+            //if (_context.Members.Any(m => m.Email.ToLower() == email.ToLower()))
+            //{
+            //    return Json($"Email {email} is already in use.");
+            //}
                 
             return Json(true);
-        }
-
-        public MembersController(FitnessClubContext context)
-        {
-            _context = context;
         }
 
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Members.ToListAsync());
+            return View(await _memberService.GetAll());
         }
 
         // GET: Members/Details/5
@@ -44,8 +40,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Members
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var member = await _memberService.GetById((long)id);
             if (member == null)
             {
                 return NotFound();
@@ -69,8 +64,7 @@ namespace Milestone2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(member);
-                await _context.SaveChangesAsync();
+                await _memberService.AddAndSave(member);
                 return RedirectToAction(nameof(Index));
             }
             return View(member);
@@ -84,7 +78,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Members.FindAsync(id);
+            var member = await _memberService.GetById((long)id);
             if (member == null)
             {
                 return NotFound();
@@ -108,12 +102,11 @@ namespace Milestone2.Controllers
             {
                 try
                 {
-                    _context.Update(member);
-                    await _context.SaveChangesAsync();
+                    await _memberService.UpdateAndSave(member);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberExists(member.Id))
+                    if (!_memberService.MemberExists(member.Id))
                     {
                         return NotFound();
                     }
@@ -135,8 +128,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Members
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var member = await _memberService.GetById((long)id);
             if (member == null)
             {
                 return NotFound();
@@ -150,15 +142,10 @@ namespace Milestone2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var member = await _context.Members.FindAsync(id);
-            _context.Members.Remove(member);
-            await _context.SaveChangesAsync();
+            await _memberService.DeleteAndSave(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MemberExists(long id)
-        {
-            return _context.Members.Any(e => e.Id == id);
-        }
+
     }
 }

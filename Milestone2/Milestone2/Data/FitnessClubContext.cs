@@ -27,7 +27,7 @@ namespace Milestone2.Data
                 .Entity<MembershipCard>()
                 .HasOne(m => m.Member)
                 .WithOne(m => m.MembershipCard);
-             
+
             modelBuilder
                 .Entity<Course>()
                 .HasOne(p => p.Coach)
@@ -98,7 +98,7 @@ namespace Milestone2.Data
                     CreatedAt = DateTime.Now,
                     Id = 2,
                     MemberId = 2
-                   
+
                 }
                 ); ;
             modelBuilder.Entity<Room>().HasData(

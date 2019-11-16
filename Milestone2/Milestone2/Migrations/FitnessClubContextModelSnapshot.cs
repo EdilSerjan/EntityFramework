@@ -221,13 +221,13 @@ namespace Milestone2.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedAt = new DateTime(2019, 11, 8, 17, 49, 57, 972, DateTimeKind.Local).AddTicks(5200),
+                            CreatedAt = new DateTime(2019, 11, 16, 1, 52, 10, 687, DateTimeKind.Local).AddTicks(5500),
                             MemberId = 1L
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedAt = new DateTime(2019, 11, 8, 17, 49, 57, 973, DateTimeKind.Local).AddTicks(7262),
+                            CreatedAt = new DateTime(2019, 11, 16, 1, 52, 10, 698, DateTimeKind.Local).AddTicks(6240),
                             MemberId = 2L
                         });
                 });

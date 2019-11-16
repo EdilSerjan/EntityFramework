@@ -10,6 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Milestone2.Data;
+using Milestone2.Services.Coaches;
+using Milestone2.Services.CourseMembers;
+using Milestone2.Services.Courses;
+using Milestone2.Services.Equipments;
+using Milestone2.Services.Members;
+using Milestone2.Services.MembershipCards;
+using Milestone2.Services.Rooms;
 
 namespace Milestone2
 {
@@ -26,6 +33,29 @@ namespace Milestone2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvc();
+
+            services.AddScoped<MemberService>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+
+            services.AddScoped<CoachService>();
+            services.AddScoped<ICoachRepository, CoachRepository>();
+
+            services.AddScoped<RoomService>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
+
+            services.AddScoped<EquipmentService>();
+            services.AddScoped<IEquipmentRepository, EquipmentRepository>();
+
+            services.AddScoped<MembershipCardService>();
+            services.AddScoped<IMembershipCardRepository, MembershipCardRepository>();
+
+            services.AddScoped<CourseService>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+
+            services.AddScoped<CourseMemberService>();
+            services.AddScoped<ICourseMemberRepository, CourseMemberRepository>();
+
             services.AddDbContext<FitnessClubContext>(options =>
             {
                 options.UseSqlite("Filename=myDB.db");

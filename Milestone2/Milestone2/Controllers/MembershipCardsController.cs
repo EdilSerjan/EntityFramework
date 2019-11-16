@@ -7,23 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Milestone2.Data;
 using Milestone2.Models;
+using Milestone2.Services.MembershipCards;
 
 namespace Milestone2.Controllers
 {
     public class MembershipCardsController : Controller
     {
-        private readonly FitnessClubContext _context;
+        private readonly MembershipCardService _membershipCardService;
 
-        public MembershipCardsController(FitnessClubContext context)
+        public MembershipCardsController(MembershipCardService membershipCardService)
         {
-            _context = context;
+            _membershipCardService = membershipCardService;
         }
 
         // GET: MembershipCards
         public async Task<IActionResult> Index()
         {
-            var fitnessClubContext = _context.MembershipCards.Include(m => m.Member);
-            return View(await fitnessClubContext.ToListAsync());
+            return View(await _membershipCardService.GetAllMembershipCards());
         }
 
         // GET: MembershipCards/Details/5
@@ -34,9 +34,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var membershipCard = await _context.MembershipCards
-                .Include(m => m.Member)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var membershipCard = await _membershipCardService.GetById((long)id);
             if (membershipCard == null)
             {
                 return NotFound();
@@ -46,9 +44,9 @@ namespace Milestone2.Controllers
         }
 
         // GET: MembershipCards/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Name");
+            ViewData["MemberId"] = new SelectList(await _membershipCardService.GetAllMembers(), "Id", "Name");
             return View();
         }
 
@@ -61,11 +59,10 @@ namespace Milestone2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(membershipCard);
-                await _context.SaveChangesAsync();
+                await _membershipCardService.AddAndSave(membershipCard);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Email", membershipCard.MemberId);
+            ViewData["MemberId"] = new SelectList(await _membershipCardService.GetAllMembers(), "Id", "Email", membershipCard.MemberId);
             return View(membershipCard);
         }
 
@@ -77,12 +74,12 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var membershipCard = await _context.MembershipCards.FindAsync(id);
+            var membershipCard = await _membershipCardService.GetById((long)id);
             if (membershipCard == null)
             {
                 return NotFound();
             }
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Name", membershipCard.MemberId);
+            ViewData["MemberId"] = new SelectList(await _membershipCardService.GetAllMembers(), "Id", "Name", membershipCard.MemberId);
             return View(membershipCard);
         }
 
@@ -102,12 +99,11 @@ namespace Milestone2.Controllers
             {
                 try
                 {
-                    _context.Update(membershipCard);
-                    await _context.SaveChangesAsync();
+                    await _membershipCardService.UpdateAndSave(membershipCard);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MembershipCardExists(membershipCard.Id))
+                    if (!_membershipCardService.MembershipCardExists(membershipCard.Id))
                     {
                         return NotFound();
                     }
@@ -118,7 +114,7 @@ namespace Milestone2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Name", membershipCard.MemberId);
+            ViewData["MemberId"] = new SelectList(await _membershipCardService.GetAllMembers(), "Id", "Name", membershipCard.MemberId);
             return View(membershipCard);
         }
 
@@ -130,9 +126,7 @@ namespace Milestone2.Controllers
                 return NotFound();
             }
 
-            var membershipCard = await _context.MembershipCards
-                .Include(m => m.Member)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var membershipCard = await _membershipCardService.GetById((long)id);
             if (membershipCard == null)
             {
                 return NotFound();
@@ -146,15 +140,8 @@ namespace Milestone2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var membershipCard = await _context.MembershipCards.FindAsync(id);
-            _context.MembershipCards.Remove(membershipCard);
-            await _context.SaveChangesAsync();
+            await _membershipCardService.DeleteAndSave(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool MembershipCardExists(long id)
-        {
-            return _context.MembershipCards.Any(e => e.Id == id);
         }
     }
 }

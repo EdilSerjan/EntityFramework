@@ -28,11 +28,9 @@ namespace Milestone2.Models
         [DisplayName("Room Id")]
         public long RoomId { get; set; }
 
-        [Required]
         [ForeignKey("CoachId")]
         public Coach Coach { get; set; }
 
-        [Required]
         [ForeignKey("RoomId")]
         public Room Room { get; set; }
 
