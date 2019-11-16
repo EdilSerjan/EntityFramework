@@ -14,5 +14,6 @@ namespace Milestone2.Services.Members
         void Update(Member member);
         Task Save();
         bool MemberExists(long id);
+        bool MemberEmailExists(string email);
     }
 }

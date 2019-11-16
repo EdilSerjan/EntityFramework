@@ -53,5 +53,13 @@ namespace Milestone2.Services.Members
             return context.Members.Any(e => e.Id == id);
         }
 
+        public bool MemberEmailExists(string email)
+        {
+            if (context.Members.Any(m => m.Email.ToLower() == email.ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

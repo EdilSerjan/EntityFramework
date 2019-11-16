@@ -52,7 +52,7 @@ namespace Milestone2.Services.Members
 
         public bool VerifyEmail(string email)
         {
-            return true;
+            return _memberRepo.MemberEmailExists(email);
         }
     }
 }

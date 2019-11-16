@@ -18,11 +18,11 @@ namespace Milestone2.Controllers
         [AcceptVerbs("Get", "Post")]
         public IActionResult VerifyEmail(string email)
         {
-            //if (_context.Members.Any(m => m.Email.ToLower() == email.ToLower()))
-            //{
-            //    return Json($"Email {email} is already in use.");
-            //}
-                
+            if (_memberService.VerifyEmail(email))
+            {
+                return Json($"Email {email} is already in use.");
+            }
+
             return Json(true);
         }
 
