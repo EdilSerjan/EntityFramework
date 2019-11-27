@@ -9374,11 +9374,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/edil/Documents/dotnetBackUp/EntityFramework/Milestone2/Milestone2.UnitTests/Milestone2.UnitTests.csproj",
+      "projectUniqueName": "/Users/edil/Documents/EntityFramework/Milestone2/Milestone2.UnitTests/Milestone2.UnitTests.csproj",
       "projectName": "Milestone2.UnitTests",
-      "projectPath": "/Users/edil/Documents/dotnetBackUp/EntityFramework/Milestone2/Milestone2.UnitTests/Milestone2.UnitTests.csproj",
+      "projectPath": "/Users/edil/Documents/EntityFramework/Milestone2/Milestone2.UnitTests/Milestone2.UnitTests.csproj",
       "packagesPath": "/Users/edil/.nuget/packages/",
-      "outputPath": "/Users/edil/Documents/dotnetBackUp/EntityFramework/Milestone2/Milestone2.UnitTests/obj/",
+      "outputPath": "/Users/edil/Documents/EntityFramework/Milestone2/Milestone2.UnitTests/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -9395,8 +9395,8 @@
       "frameworks": {
         "netcoreapp3.0": {
           "projectReferences": {
-            "/Users/edil/Documents/dotnetBackUp/EntityFramework/Milestone2/Milestone2/Milestone2.csproj": {
-              "projectPath": "/Users/edil/Documents/dotnetBackUp/EntityFramework/Milestone2/Milestone2/Milestone2.csproj"
+            "/Users/edil/Documents/EntityFramework/Milestone2/Milestone2/Milestone2.csproj": {
+              "projectPath": "/Users/edil/Documents/EntityFramework/Milestone2/Milestone2/Milestone2.csproj"
             }
           }
         }

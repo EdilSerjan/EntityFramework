@@ -10,6 +10,17 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@{
+    if (TempData.Peek("Count") != null)
+    {
+        <h3 class="text-success">@TempData.Peek("Count")</h3>
+    }
+    else
+    {
+        <h3 class="text-success"> You visited this page for the 1st time, refresh to see it change!</h3>
+    }
+}
 <table class="table">
     <thead>
         <tr>

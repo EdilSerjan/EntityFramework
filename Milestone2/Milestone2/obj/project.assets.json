@@ -8380,11 +8380,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/edil/Documents/dotnetBackUp/EntityFramework/Milestone2/Milestone2/Milestone2.csproj",
+      "projectUniqueName": "/Users/edil/Documents/EntityFramework/Milestone2/Milestone2/Milestone2.csproj",
       "projectName": "Milestone2",
-      "projectPath": "/Users/edil/Documents/dotnetBackUp/EntityFramework/Milestone2/Milestone2/Milestone2.csproj",
+      "projectPath": "/Users/edil/Documents/EntityFramework/Milestone2/Milestone2/Milestone2.csproj",
       "packagesPath": "/Users/edil/.nuget/packages/",
-      "outputPath": "/Users/edil/Documents/dotnetBackUp/EntityFramework/Milestone2/Milestone2/obj/",
+      "outputPath": "/Users/edil/Documents/EntityFramework/Milestone2/Milestone2/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

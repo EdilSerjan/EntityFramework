@@ -1,11 +1,10 @@
 ﻿<Properties StartupConfiguration="{7806CA72-C205-49B3-861D-B879A41116F6}|Default">
   <MonoDevelop.Ide.ItemProperties.Milestone2 PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Milestone2/Services/Members/MemberService.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Milestone2/Views/Members/Index.cshtml">
     <Files>
-      <File FileName="Milestone2/Services/Members/IMemberRepository.cs" Line="19" Column="2" />
-      <File FileName="Milestone2/Services/Members/MemberRepository.cs" Line="1" Column="1" />
-      <File FileName="Milestone2/Services/Members/MemberService.cs" Line="55" Column="20" />
-      <File FileName="Milestone2/Controllers/MembersController.cs" Line="17" Column="1" />
+      <File FileName="Milestone2/Startup.cs" Line="96" Column="30" />
+      <File FileName="Milestone2/Views/Members/Index.cshtml" Line="13" Column="1" />
+      <File FileName="Milestone2/Controllers/MembersController.cs" Line="30" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,8 +14,11 @@
               <Node name="Dependencies" expanded="True" />
               <Node name="Controllers" expanded="True" />
               <Node name="Services" expanded="True">
+                <Node name="Members" expanded="True" />
+              </Node>
+              <Node name="Views" expanded="True">
                 <Node name="Members" expanded="True">
-                  <Node name="MemberService.cs" selected="True" />
+                  <Node name="Index.cshtml" selected="True" />
                 </Node>
               </Node>
             </Node>

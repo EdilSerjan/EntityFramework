@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Milestone2.Models;
@@ -9,6 +11,10 @@ namespace Milestone2.Controllers
     public class MembersController : Controller
     {
         private readonly MemberService _memberService;
+
+        [TempData]
+        public string Count { get; set; }
+
 
         public MembersController(MemberService memberService)
         {
@@ -29,6 +35,17 @@ namespace Milestone2.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
+
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("count")))
+            {
+                HttpContext.Session.SetString("count", "1");
+            }
+
+            int count = Int32.Parse(HttpContext.Session.GetString("count"));
+            count += 1;
+            HttpContext.Session.SetString("count", count.ToString());
+
+            Count = $"You have visited this page {HttpContext.Session.GetString("count")} times";
             return View(await _memberService.GetAll());
         }
 
