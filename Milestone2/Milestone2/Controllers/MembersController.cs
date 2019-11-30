@@ -15,7 +15,6 @@ namespace Milestone2.Controllers
         [TempData]
         public string Count { get; set; }
 
-
         public MembersController(MemberService memberService)
         {
             _memberService = memberService;
@@ -35,7 +34,6 @@ namespace Milestone2.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
-
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("count")))
             {
                 HttpContext.Session.SetString("count", "1");

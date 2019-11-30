@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ using Milestone2.Services.Courses;
 
 namespace Milestone2.Controllers
 {
+
+    [Authorize]
     public class CoursesController : Controller
     {
         private readonly CourseService _courseService;

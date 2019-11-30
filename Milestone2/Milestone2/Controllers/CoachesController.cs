@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Milestone2.Models;
@@ -6,6 +7,8 @@ using Milestone2.Services.Coaches;
 
 namespace Milestone2.Controllers
 {
+
+    [Authorize(Roles = "User")]
     public class CoachesController : Controller
     {
         private readonly CoachService _coachService;
