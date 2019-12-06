@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Milestone2.Areas.Identity.Data;
 using Milestone2.Data;
+using Milestone2.Hubs;
 using Milestone2.Services.Coaches;
 using Milestone2.Services.CourseMembers;
 using Milestone2.Services.Courses;
@@ -47,7 +48,7 @@ namespace Milestone2
 
             services.AddControllersWithViews();
             services.AddMvc();
-
+            services.AddSignalR();
             services.AddScoped<MemberService>();
             services.AddScoped<IMemberRepository, MemberRepository>();
 
@@ -100,6 +101,7 @@ namespace Milestone2
             {
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
+                endpoints.MapHub<myHub>("/myHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Members}/{action=Index}/{id?}");
