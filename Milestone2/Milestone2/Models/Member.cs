@@ -16,16 +16,29 @@ namespace Milestone2.Models
 
         [Required]
         [NotContainsDigits]
+        [Remote(action: "VerifyName", controller: "Members")]
         public string Name { get; set; }
 
         [Required]
         [EmailAddress]
-        [Remote(action: "VerifyEmail", controller: "Members")]
         public string Email { get; set; }
 
         public MembershipCard MembershipCard { get; set; }
 
         public IList<CourseMember> CourseMembers { get; set; }
+
+        public Member(string userName, string email)
+        {
+            this.Name = userName;
+            Email = email;
+        }
+
+        public Member(long id, string name, string email)
+        {
+            Id = id;
+            Name = name;
+            Email = email;
+        }
     }
 
     public class NotContainsDigitsAttribute : ValidationAttribute

@@ -13,7 +13,7 @@ using Milestone2.Services.Courses;
 namespace Milestone2.Controllers
 {
 
-    [Authorize]
+    //[Authorize]
     public class CoursesController : Controller
     {
         private readonly CourseService _courseService;
@@ -47,6 +47,7 @@ namespace Milestone2.Controllers
         }
 
         // GET: Courses/Create
+        [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> CreateAsync()
         {
             ViewData["CoachId"] = new SelectList(await _courseService.GetAllCoaches(), "Id", "Name");
@@ -59,6 +60,7 @@ namespace Milestone2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,CoachId,RoomId")] Course course)
         {
             if (ModelState.IsValid)
@@ -71,7 +73,7 @@ namespace Milestone2.Controllers
             return View(course);
         }
 
-        // GET: Courses/Edit/5
+        [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -94,6 +96,7 @@ namespace Milestone2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,CoachId,RoomId")] Course course)
         {
             if (id != course.Id)
@@ -126,6 +129,7 @@ namespace Milestone2.Controllers
         }
 
         // GET: Courses/Delete/5
+        [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -146,6 +150,7 @@ namespace Milestone2.Controllers
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             await _courseService.DeleteAndSave(id);

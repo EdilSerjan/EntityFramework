@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,20 +14,25 @@ using Milestone2.Services.CourseMembers;
 namespace Milestone2.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class CourseMembersController : Controller
     {
         private readonly CourseMemberService _courseMemberService;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         string[] Days = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-        public CourseMembersController(CourseMemberService courseMemberService)
+        public CourseMembersController(CourseMemberService courseMemberService, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             _courseMemberService = courseMemberService;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         // GET: CourseMembers
         public async Task<IActionResult> Index()
         {
+
             return View(await _courseMemberService.GetAllCourseMembers());
         }
 
@@ -48,6 +54,7 @@ namespace Milestone2.Controllers
         }
 
         // GET: CourseMembers/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAsync()
         {
             ViewData["CourseId"] = new SelectList(await _courseMemberService.GetAllCourses(), "Id", "Name");
@@ -61,6 +68,7 @@ namespace Milestone2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("CourseId,MemberId,Day")] CourseMember courseMember)
         {
             if (ModelState.IsValid)
@@ -74,6 +82,7 @@ namespace Milestone2.Controllers
         }
 
         // GET: CourseMembers/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(long? CourseId, long? MemberId)
         {
             if (CourseId == null || MemberId == null)
@@ -97,6 +106,7 @@ namespace Milestone2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(long CourseId, long MemberId, [Bind("CourseId,MemberId,Day")] CourseMember courseMember)
         {
             if (CourseId != courseMember.CourseId || MemberId != courseMember.MemberId)
@@ -130,6 +140,7 @@ namespace Milestone2.Controllers
         }
 
         // GET: CourseMembers/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(long? CourseId, long? MemberId)
         {
             if (CourseId == null || MemberId == null)
@@ -150,6 +161,7 @@ namespace Milestone2.Controllers
         // POST: CourseMembers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(long CourseId, long MemberId)
         {
             await _courseMemberService.DeleteAndSave(CourseId, MemberId);

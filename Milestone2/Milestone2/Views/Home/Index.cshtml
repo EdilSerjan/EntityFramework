@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/heroic-features.css" rel="stylesheet">
+<div class="text-center">
+    
+        @*
+            <h1 class="display-4">Welcome</h1>
+            <img  asp-append-version="true">
+            *@
+    <style>
+    .jumbotron {
+    min-height: 500px;
+    background: url("images/index2.jpeg");
+    background-size: cover;
+}
+    .card-img-top{
+        width:250px;
+        height:160px;
+    }
+    </style>
+
+   <header class="jumbotron my-4 text-white rounded bg-dark shadow-lg">
+      <h1 class="display-3">A Warm Welcome!</h1>
+      <p class="lead">Yedil Fitness Club is the biggest gym all over Almaty, we have thounsands of members and dozens of professional couaches. You will be the most honored guest here. Are you already excited? Come, and join us!</p>
+       <a class="btn btn-primary btn-lg" id="login" asp-area="Identity" asp-page="/Account/Login">Call to action!</a>
+    </header>
+
+    <!-- Page Features -->
+    <div class="row text-center">
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card h-100 rounded shadow-lg">
+          <img class="card-img-top" src="~/images/coach.jpeg">
+          <div class="card-body">
+            <h4 class="card-title">Coaches</h4>
+            <p class="card-text">We have the best and the most responible coaches who are from all over the world.</p>
+          </div>
+          <div class="card-footer">
+               <a class="btn btn-primary" asp-area="" asp-controller="Coaches" asp-action="Index">Find Out More!</a>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card h-100 rounded shadow-lg">
+         <img class="card-img-top" src="~/images/course.jpeg">
+          <div class="card-body">
+            <h4 class="card-title">Courses</h4>
+            <p class="card-text">There are many kinds of courses for you, you can always find what you are looking for.</p>
+          </div>
+          <div class="card-footer">
+              <a class="btn btn-primary" asp-area="" asp-controller="Courses" asp-action="Index">Find Out More!</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card h-100 rounded shadow-lg">
+          <img class="card-img-top" src="~/images/room.jpg">
+          <div class="card-body">
+            <h4 class="card-title">Rooms</h4>
+            <p class="card-text">Our gym has plenty of rooms for different purpose.</p>
+          </div>
+          <div class="card-footer">
+              <a class="btn btn-primary" asp-area="" asp-controller="Rooms" asp-action="Index">Find Out More!</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card h-100 rounded shadow-lg">
+          <img class="card-img-top" src="~/images/equipment.jpeg">
+          <div class="card-body">
+            <h4 class="card-title">Equipments</h4>
+            <p class="card-text">Can't find the right equipment? Don't worry, it won't be a problem for you here.</p>
+          </div>
+          <div class="card-footer">
+              <a class="btn btn-primary" asp-area="" asp-controller="Equipments" asp-action="Index">Find Out More!</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.row -->
+</div>

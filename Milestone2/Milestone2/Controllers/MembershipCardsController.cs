@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Milestone2.Services.MembershipCards;
 
 namespace Milestone2.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MembershipCardsController : Controller
     {
         private readonly MembershipCardService _membershipCardService;

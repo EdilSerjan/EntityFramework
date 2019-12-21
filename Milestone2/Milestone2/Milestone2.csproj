@@ -13,6 +13,8 @@
     <EmbeddedResource Remove="NewFolder\**" />
     <None Remove="Controllers\NewFolder\**" />
     <None Remove="NewFolder\**" />
+    <None Remove="myIdentity.db" />
+    <Compile Remove="Areas\Identity\Data\ApplicationDbInitializer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,5 +40,7 @@
     <Folder Include="Services\Courses\" />
     <Folder Include="Services\CourseMembers\" />
     <Folder Include="Hubs\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="Views\Home\" />
   </ItemGroup>
 </Project>

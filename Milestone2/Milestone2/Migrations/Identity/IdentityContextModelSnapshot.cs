@@ -44,17 +44,24 @@ namespace Milestone2.Migrations.Identity
                     b.HasData(
                         new
                         {
-                            Id = "db01f0fb-b9c1-4efb-8737-942adcd44f84",
-                            ConcurrencyStamp = "b194e6d1-512b-477e-a7a4-e4b06b336a70",
+                            Id = "51fbb6b2-9a4e-4db0-a966-5ef7cd46e057",
+                            ConcurrencyStamp = "ac18f241-4acc-4c1f-94e4-3a6dc26d4b5d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "e8a0b77e-c43b-47ee-9825-788ca1ed34f1",
-                            ConcurrencyStamp = "de934616-7476-4989-b4ee-fc79b3e7c9ad",
+                            Id = "ab4e4858-2683-4e4b-ae5d-3e455d2ba30e",
+                            ConcurrencyStamp = "4cdff8e7-e18e-49c2-bd16-6fe4f729ba68",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "547cb107-48f5-4665-b5af-0401b8a0aeed",
+                            ConcurrencyStamp = "8243b952-f186-4b0a-bf24-13e9f7c69fce",
+                            Name = "Coach",
+                            NormalizedName = "COACH"
                         });
                 });
 

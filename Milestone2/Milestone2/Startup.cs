@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Milestone2.Areas.Identity.Data;
 using Milestone2.Data;
 using Milestone2.Hubs;
 using Milestone2.Services.Coaches;
@@ -80,7 +79,7 @@ namespace Milestone2
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager)
         {
-            ApplicationDbInitializer.SeedUsers(userManager);
+            
             app.UseRouting();
             if (env.IsDevelopment())
             {
@@ -104,7 +103,7 @@ namespace Milestone2
                 endpoints.MapHub<myHub>("/myHub");
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Members}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

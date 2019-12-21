@@ -61,5 +61,14 @@ namespace Milestone2.Services.Members
             }
             return false;
         }
+
+        public bool MemberNameExists(string name)
+        {
+            if (context.Members.Any(m => m.Name.ToLower() == name.ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

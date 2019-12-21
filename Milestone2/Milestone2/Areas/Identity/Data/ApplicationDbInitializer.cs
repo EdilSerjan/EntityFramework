@@ -14,7 +14,7 @@ namespace Milestone2.Areas.Identity.Data
             {
                 IdentityUser admin = new IdentityUser
                 {
-                    UserName = "admin@admin.com",
+                    UserName = "Admin",
                     Email = "admin@admin.com"
                 };
 
@@ -26,12 +26,12 @@ namespace Milestone2.Areas.Identity.Data
                 }
             }
 
-            if (userManager.FindByEmailAsync("user@user.com").Result == null)
+            if (userManager.FindByEmailAsync("lisa@gmail.com").Result == null)
             {
                 IdentityUser user = new IdentityUser
                 {
-                    UserName = "user@user.com",
-                    Email = "user@user.com"
+                    UserName = "Lisa",
+                    Email = "lisa@gmail.com"
                 };
 
                 IdentityResult result = userManager.CreateAsync(user, "User.123").Result;
@@ -39,6 +39,38 @@ namespace Milestone2.Areas.Identity.Data
                 if (result.Succeeded)
                 {
                     userManager.AddToRoleAsync(user, "User").Wait();
+                }
+            }
+
+            if (userManager.FindByEmailAsync("yedil@gmail.com").Result == null)
+            {
+                IdentityUser user = new IdentityUser
+                {
+                    UserName = "Yedil",
+                    Email = "yedil@gmail.com"
+                };
+
+                IdentityResult result = userManager.CreateAsync(user, "User.123").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "User").Wait();
+                }
+            }
+
+            if (userManager.FindByEmailAsync("coach@coach.com").Result == null)
+            {
+                IdentityUser coach = new IdentityUser
+                {
+                    UserName = "Coach",
+                    Email = "coach@coach.com"
+                };
+
+                IdentityResult result = userManager.CreateAsync(coach, "Coach.123").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(coach, "Coach").Wait();
                 }
             }
         }

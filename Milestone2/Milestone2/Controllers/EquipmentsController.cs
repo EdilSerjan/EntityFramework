@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Milestone2.Services.Equipments;
 
 namespace Milestone2.Controllers
 {
+
     public class EquipmentsController : Controller
     {
         private readonly EquipmentService _equipmentService;
@@ -44,6 +46,7 @@ namespace Milestone2.Controllers
         }
 
         // GET: Equipments/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAsync()
         {
             ViewData["RoomId"] = new SelectList(await _equipmentService.GetAllRooms(), "Id", "Id");
@@ -55,6 +58,7 @@ namespace Milestone2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,RoomId")] Equipment equipment)
         {
             if (ModelState.IsValid)
@@ -67,6 +71,7 @@ namespace Milestone2.Controllers
         }
 
         // GET: Equipments/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -88,6 +93,7 @@ namespace Milestone2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Price,RoomId")] Equipment equipment)
         {
             if (id != equipment.Id)
@@ -119,6 +125,7 @@ namespace Milestone2.Controllers
         }
 
         // GET: Equipments/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -138,6 +145,7 @@ namespace Milestone2.Controllers
         // POST: Equipments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             await _equipmentService.DeleteAndSave(id);

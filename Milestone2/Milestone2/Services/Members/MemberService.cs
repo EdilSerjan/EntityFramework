@@ -54,5 +54,10 @@ namespace Milestone2.Services.Members
         {
             return _memberRepo.MemberEmailExists(email);
         }
+
+        public bool VerifyName(string email)
+        {
+            return _memberRepo.MemberNameExists(email);
+        }
     }
 }

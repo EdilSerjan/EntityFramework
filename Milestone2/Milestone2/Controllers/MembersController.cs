@@ -1,22 +1,32 @@
 ﻿using System;
+using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Milestone2.Areas.Identity.Pages.Account;
 using Milestone2.Models;
 using Milestone2.Services.Members;
 
 namespace Milestone2.Controllers
 {
+    [Authorize]
     public class MembersController : Controller
     {
         private readonly MemberService _memberService;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         [TempData]
         public string Count { get; set; }
 
-        public MembersController(MemberService memberService)
+        public MembersController(MemberService memberService, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _memberService = memberService;
         }
 
@@ -26,6 +36,17 @@ namespace Milestone2.Controllers
             if (_memberService.VerifyEmail(email))
             {
                 return Json($"Email {email} is already in use.");
+            }
+
+            return Json(true);
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public IActionResult VerifyName(string name)
+        {
+            if (_memberService.VerifyName(name))
+            {
+                return Json($"Name {name} is already in use.");
             }
 
             return Json(true);
@@ -44,6 +65,8 @@ namespace Milestone2.Controllers
             HttpContext.Session.SetString("count", count.ToString());
 
             Count = $"You have visited this page {HttpContext.Session.GetString("count")} times";
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+           
             return View(await _memberService.GetAll());
         }
 
@@ -65,6 +88,7 @@ namespace Milestone2.Controllers
         }
 
         // GET: Members/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -75,6 +99,7 @@ namespace Milestone2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Email")] Member member)
         {
             if (ModelState.IsValid)
@@ -88,17 +113,24 @@ namespace Milestone2.Controllers
         // GET: Members/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+                var user = await _userManager.GetUserAsync(User);
+                var email = user.Email;
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var member = await _memberService.GetById((long)id);
-            if (member == null)
-            {
+                var member = await _memberService.GetById((long)id);
+                if (member == null)
+                {
+                    return NotFound();
+                }
+
+
+                if (member.Email.Equals(email) || User.IsInRole("Admin"))
+                    return View(member);
                 return NotFound();
-            }
-            return View(member);
+
         }
 
         // POST: Members/Edit/5
@@ -108,6 +140,7 @@ namespace Milestone2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Email")] Member member)
         {
+            Console.WriteLine("1111111111111111111111");
             if (id != member.Id)
             {
                 return NotFound();
@@ -115,6 +148,8 @@ namespace Milestone2.Controllers
 
             if (ModelState.IsValid)
             {
+                Console.WriteLine("222222222222222222");
+
                 try
                 {
                     await _memberService.UpdateAndSave(member);
@@ -132,10 +167,12 @@ namespace Milestone2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(member);
+            Console.WriteLine("3333333333333");
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Members/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
